@@ -1,15 +1,34 @@
-import React, { use } from 'react';
+import React, { use, useState } from 'react';
 
 
 const User = ({UserPromise}) => {
-    const users=use(UserPromise);
-    console.log(users);
+    const initialUsers=use(UserPromise);
+    // console.log(initialUsers);
+    const [users,setUsers]=useState(initialUsers);
 
     const handleAddUser=e=>{
         e.preventDefault();
+
+        
         const name=e.target.name.value;
         const email=e.target.email.value;
-        console.log(name, email)
+        const user={name,email}
+        console.log(user);
+
+        fetch("http://localhost:3000/users",{
+            method:'POST',
+            headers:{
+                 "Content-Type": "application/json",
+            },
+            body:JSON.stringify(user)
+        })
+        .then(res =>res.json())
+        .then(data=>{
+            console.log("after the post",data)
+            const newUser=[...users,data];
+            setUsers(newUser);
+        }
+    )
     }
     return (
         <div style={{textAlign:"center"}}>
