@@ -1,51 +1,45 @@
-import React, { use, useState } from 'react';
+import React, { use } from "react";
+import UserCard from "./UserCard";
 
+const User = ({ UserPromise }) => {
+  const users = use(UserPromise);
+  console.log(users);
+  return (
+    <div className="w-11/12 mx-auto">
+      <div className=" flex flex-col justify-center m-11/12 mx-auto ">
+        <form action="">
+          <div className="">
+            <legend className="fieldset-legend">Name</legend>
+            <input name="name" type="text" className="input" placeholder="Type here" />
+          </div>
+           <div className="">
+            <legend className="fieldset-legend">UserName</legend>
+            <input name="username" type="text" className="input" placeholder="Type here" />
+          </div>
 
-const User = ({UserPromise}) => {
-    const initialUsers=use(UserPromise);
-    // console.log(initialUsers);
-    const [users,setUsers]=useState(initialUsers);
+           <div className="">
+            <legend className="fieldset-legend">Email</legend>
+            <input name="email" type="email" className="input" placeholder="Type here" />
+          </div>
 
-    const handleAddUser=e=>{
-        e.preventDefault();
+           <div className="">
+            <legend className="fieldset-legend">Phone</legend>
+            <input  name="phone" type="text" className="input" placeholder="Type here" />
+          </div>
 
-        
-        const name=e.target.name.value;
-        const email=e.target.email.value;
-        const user={name,email}
-        console.log(user);
-
-        fetch("http://localhost:3000/users",{
-            method:'POST',
-            headers:{
-                 "Content-Type": "application/json",
-            },
-            body:JSON.stringify(user)
-        })
-        .then(res =>res.json())
-        .then(data=>{
-            console.log("after the post",data)
-            const newUser=[...users,data];
-            setUsers(newUser);
-        }
-    )
-    }
-    return (
-        <div style={{textAlign:"center"}}>
-
-            <form onSubmit={handleAddUser}>
-                <input type="text" name="name" id="" /> <br /> <br />
-                <input type="email" name="email" id="" /> <br /> <br />
-                <input type="submit" value="add user" />
-            </form>
-    
-            <div >
-                {
-                    users.map(user=><p key={user.id}>{user.name}:{user.email}</p>)
-                }
-            </div>
-        </div>
-    );
+           <div className="">
+            <legend className="fieldset-legend">website</legend>
+            <input name="website" type="text" className="input" placeholder="Type here" />
+          </div>
+        </form>
+      </div>
+      <div className="grid grid-cols-3 mx-auto w-11/12 my-19 gap-8">
+        {users.map((user) => (
+          <UserCard key={user.id} user={user}></UserCard>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default User;
